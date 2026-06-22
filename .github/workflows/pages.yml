@@ -14,10 +14,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Prepare files
+        run: |
+          mkdir -p _site/.well-known/appspecific
+          cp .well-known/appspecific/com.tesla.3p.public-key.pem _site/.well-known/appspecific/com.tesla.3p.public-key.pem
+          cp index.html _site/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
-          include-hidden-files: true
+          path: '_site'
       - uses: actions/deploy-pages@v5
         id: deployment
